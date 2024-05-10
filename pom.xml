@@ -479,7 +479,7 @@
                         <entrypoint>java,-jar,/usr/local/jetty/start.jar</entrypoint>
                     </container>
                     <to>
-                        <image>docker.io/${docker.image.prefix}/${project.artifactId}</image>
+                        <image>karunsureshraj/petclinic_container_images_repo</image>
                         <tags>
                             <tag>${project.version}</tag>
                             <tag>latest</tag>

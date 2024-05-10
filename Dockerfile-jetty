@@ -1,0 +1,26 @@
+# Use Maven base image to build the project
+FROM maven:3.8.4-openjdk-17 as builder
+
+# Copy the source code
+COPY . /app
+
+# Set the working directory
+WORKDIR /app
+
+# Build the project and package it as a WAR file, skipping tests to speed up the build
+RUN mvn clean package -DskipTests
+
+# Use Jetty base image to run the WAR file
+FROM jetty:9.4-jre11
+
+# Copy the built WAR file from the builder stage
+COPY --from=builder /app/target/*.war /var/lib/jetty/webapps/ROOT.war
+
+# Set the working directory to Jetty base
+WORKDIR /var/lib/jetty
+
+# Expose the port Jetty listens on
+EXPOSE 8080
+
+# Run Jetty server
+CMD ["java", "-jar", "/usr/local/jetty/start.jar"]
